@@ -1,11 +1,12 @@
 const dino = document.querySelector('.dino');
 const background = document.querySelector('.background');
+const velocidadePulo = 20;
 let isJumping = false;
 
 function handleKeyUp(event) {
     if (event.keyCode === 32) {
-        if(!isJumping)    
-        jump();    
+        if (!isJumping)
+            jump();
     }
 }
 
@@ -28,23 +29,41 @@ function jump() {
                     position -= 20;
                     dino.style.bottom = position + 'px';
                 }
-            }, 30);
+            }, velocidadePulo);
         } else {
             position += 20;
 
             dino.style.bottom = position + 'px';
         }
 
-    }, 30);
+    }, velocidadePulo);
 }
 
-function createCactus(){
+function createCactus() {
     const cactus = document.createElement('div');
     let cactusPosition = 1000;
+    let randomTime = Math.random() * 3000;
+
+    console.log(randomTime);
+
+
     cactus.classList.add('cactus');
 
     cactus.style.left = 1000 + 'px';
     background.appendChild(cactus);
+
+    let leftInterval = setInterval(() => {
+
+        if (cactusPosition < -60) {
+            clearInterval(leftInterval);
+            background.removeChild(cactus);
+        } else {
+            cactusPosition -= 10;
+            cactus.style.left = cactusPosition + 'px';
+        }
+    }, 20);
+
+    setTimeout(createCactus, randomTime);
 }
 
 
